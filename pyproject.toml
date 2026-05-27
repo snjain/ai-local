@@ -68,6 +68,10 @@ pythonpath = ["apps/agent-backend"]
 testpaths = ["tests", "apps/agent-backend/tests", "apps/agent-backend/graphs/tests"]
 asyncio_mode = "strict"
 
+[tool.setuptools]
+packages = []
+py-modules = ["main"]
+
 [tool.uv]
 package = false
 
