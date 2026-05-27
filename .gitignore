@@ -41,6 +41,7 @@ htmlcov/
 .pytest_cache/
 
 # Infrastructure data volumes
-infra/supabase/volumes/
+infra/supabase/volumes/db/data/
+infra/supabase/volumes/storage/
 infra/neo4j/data/
 infra/searxng/data/
