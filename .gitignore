@@ -34,5 +34,12 @@ Thumbs.db
 *.log
 logs/
 
+# Testing
 .coverage
 htmlcov/
+.pytest_cache/
+
+# Infrastructure data volumes
+infra/supabase/volumes/
+infra/neo4j/data/
+infra/searxng/data/

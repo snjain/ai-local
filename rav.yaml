@@ -79,6 +79,12 @@ scripts:
   frontend-install:
     - cd apps/agent-frontend && npm install
 
+  frontend-test:
+    - cd apps/agent-frontend && bun run test
+
+  frontend-coverage:
+    - cd apps/agent-frontend && bun run test:coverage
+
   # ============================================================
   # Full Stack (Docker)
   # ============================================================

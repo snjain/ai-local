@@ -145,7 +145,8 @@ ai-local/
 │   │   └── tests/              # Pytest tests
 │   ├── agent-frontend/         # React + Tailwind + shadcn/ui chat
 │   │   ├── src/pages/Admin.tsx # Admin dashboard
-│   │   └── src/pages/Chat.tsx  # Chat interface
+│   │   ├── src/pages/Chat.tsx  # Chat interface
+│   │   └── tests/                # Vitest unit tests (mirrors backend layout)
 │   └── rag-pipeline/           # Document ingestion pipeline
 │       ├── main.py             # File watcher
 │       ├── db_handler.py       # Supabase operations
@@ -202,6 +203,7 @@ ai-local/
 | `rav run frontend` | Start React frontend (dev mode) |
 | `rav run frontend-build` | Build for production |
 | `rav run frontend-install` | Install npm dependencies |
+| `rav run frontend-test` | Run frontend unit tests (Vitest)
 
 ### Testing & Utilities
 | Command | Description |
@@ -268,7 +270,8 @@ See [`docs/testing-guide.md`](docs/testing-guide.md) for a comprehensive testing
 
 ### Run all tests
 ```bash
-pytest -v
+pytest -v                    # Backend tests
+cd apps/agent-frontend && bun run test  # Frontend tests
 ```
 
 ### Smoke tests
@@ -281,12 +284,22 @@ rav run smoke-test
 rav run agent-test
 ```
 
-### Code coverage
+### Frontend tests
+```bash
+rav run frontend-test
+```
+
+### Frontend coverage
+```bash
+rav run frontend-coverage
+```
+
+### Backend coverage
 ```bash
 rav run coverage
 ```
 
-Generates a terminal report and an HTML report in `htmlcov/`. Current coverage: ~60%.
+Generates terminal + HTML reports. Backend: ~60%, Frontend: ~2.6% (growing).
 
 ---
 

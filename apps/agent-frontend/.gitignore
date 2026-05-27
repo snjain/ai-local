@@ -13,5 +13,8 @@ build/
 .idea/
 *.swp
 
+# Coverage
+htmlcov/
+
 # OS
 .DS_Store
