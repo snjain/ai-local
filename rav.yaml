@@ -9,7 +9,7 @@ scripts:
   # Database Setup
   # ============================================================
   db-setup:
-    - cd /Users/snjain/github/ai-local && uv run python scripts/run_sql.py
+    - cd /Users/snjain/github/ai-local && uv run --extra backend python scripts/run_sql.py
 
   # ============================================================
   # n8n (Docker)
@@ -110,7 +110,7 @@ scripts:
   # Testing & Validation
   # ============================================================
   smoke-test:
-    - cd /Users/snjain/github/ai-local && uv run pytest tests/ -v -k smoke
+    - cd /Users/snjain/github/ai-local && uv run --extra backend pytest tests/ -v -k smoke
 
   # ============================================================
   # Utilities
@@ -159,4 +159,4 @@ scripts:
     - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d --force-recreate qdrant
 
   coverage:
-    - cd /Users/snjain/github/ai-local && uv run pytest --cov=apps/agent-backend --cov-report=html --cov-report=term -v
+    - cd /Users/snjain/github/ai-local && uv run --extra backend pytest --cov=apps/agent-backend --cov-report=html --cov-report=term -v

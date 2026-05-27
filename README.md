@@ -50,8 +50,8 @@ cd /Users/snjain/github/ai-local
 uv venv
 source .venv/bin/activate
 
-# Install root dependencies
-uv pip install -e "."
+# Install all Python dependencies (backend, rag, dev)
+uv pip install -e ".[all]"
 
 # Copy environment template
 cp .env.example .env
