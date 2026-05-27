@@ -1,0 +1,156 @@
+name: local-ai-packaged
+
+description: |
+  Self-contained command runner for the Local AI Packaged stack.
+  All docker compose commands use --profile none (macOS compatible).
+
+scripts:
+  # ============================================================
+  # Database Setup
+  # ============================================================
+  db-setup:
+    - cd /Users/snjain/github/ai-local && uv run python scripts/run_sql.py
+
+  # ============================================================
+  # n8n (Docker)
+  # ============================================================
+  n8n:
+    - docker compose -f infra/docker-compose.n8n.yml up -d
+
+  n8n-stop:
+    - docker compose -f infra/docker-compose.n8n.yml down --volumes
+
+  n8n-logs:
+    - docker compose -f infra/docker-compose.n8n.yml logs -f n8n
+
+  n8n-recreate:
+    - docker compose -f infra/docker-compose.n8n.yml up -d --force-recreate n8n
+
+  # ============================================================
+  # Agent Backend (native Python)
+  # ============================================================
+  agent-api:
+    - cd apps/agent-backend && uv run python -m uvicorn api:app --reload --port 8009
+
+  agent-api-stop:
+    - pkill -f "uvicorn"
+
+  agent-cli:
+    - cd apps/agent-backend && uv run python cli.py
+
+  agent-streamlit:
+    - cd apps/agent-backend && uv run streamlit run streamlit_ui.py --server.port=8501 --server.address=127.0.0.1
+
+  agent-test:
+    - cd apps/agent-backend && uv run pytest tests/ -v
+
+  rag-pipeline:
+    - cd apps/rag-pipeline && uv run python main.py --watch ../../shared --interval 5
+
+  rag-pipeline-stop:
+    - pkill -9 -f "python.*main\.py.*watch"
+    - pkill -9 -f "rag-pipeline"
+
+  agent-streamlit-stop:
+    - pkill -f "streamlit"
+
+  frontend-stop:
+    - pkill -f "vite"
+
+  # ============================================================
+  # Stop Everything
+  # ============================================================
+  stop-all:
+    - rav run agent-api-stop
+    - rav run agent-streamlit-stop
+    - rav run rag-pipeline-stop
+    - rav run frontend-stop
+    - rav run n8n-stop
+
+  # ============================================================
+  # Agent Frontend (native Node)
+  # ============================================================
+  frontend:
+    - cd apps/agent-frontend && npm run dev
+
+  frontend-build:
+    - cd apps/agent-frontend && npm run build
+
+  frontend-install:
+    - cd apps/agent-frontend && npm install
+
+  # ============================================================
+  # Full Stack (Docker)
+  # ============================================================
+  up:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d --build
+
+  down:
+    - docker compose -p ai-local -f infra/docker-compose.yml --profile none down --volumes --remove-orphans
+
+  logs:
+    - docker compose -p ai-local -f infra/docker-compose.yml logs -f
+
+  ps:
+    - docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
+
+  ps-ai-local:
+    - docker compose -p ai-local -f infra/docker-compose.yml ps
+
+  ps-n8n:
+    - docker compose -f infra/docker-compose.n8n.yml ps
+
+  # ============================================================
+  # Testing & Validation
+  # ============================================================
+  smoke-test:
+    - cd /Users/snjain/github/ai-local && uv run pytest tests/ -v -k smoke
+
+  # ============================================================
+  # Utilities
+  # ============================================================
+  clean:
+    - rav run down
+    - rav run n8n-stop
+    - docker system prune -f
+    - docker volume prune -f
+
+  generate-secrets:
+    - echo "N8N_ENCRYPTION_KEY=$(openssl rand -base64 32)"
+    - echo "N8N_USER_MANAGEMENT_JWT_SECRET=$(openssl rand -base64 32)"
+
+  # ============================================================
+  # Progressive Rollout (ai-local specific)
+  # ============================================================
+  up-n8n:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d n8n
+
+  up-qdrant:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d qdrant
+
+  up-webui:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d open-webui flowise
+
+  up-neo4j:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d neo4j searxng
+
+  up-langfuse:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d langfuse-worker langfuse-web
+
+  up-caddy:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d caddy
+
+  images:
+    - docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
+
+  # ============================================================
+  # Reproducibility
+  # ============================================================
+  recreate-n8n:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d --force-recreate n8n
+
+  recreate-qdrant:
+    - docker compose -p ai-local -f infra/docker-compose.yml up -d --force-recreate qdrant
+
+  coverage:
+    - cd /Users/snjain/github/ai-local && uv run pytest --cov=apps/agent-backend --cov-report=html --cov-report=term -v

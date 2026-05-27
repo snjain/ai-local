@@ -1,0 +1,77 @@
+[project]
+name = "local-ai-packaged"
+version = "0.1.0"
+description = "Self-hosted AI starter kit with n8n, Supabase, and companion services"
+requires-python = ">=3.12"
+dependencies = [
+    "rav>=0.4.3",
+]
+
+[project.optional-dependencies]
+backend = [
+    "pydantic-ai>=0.0.53",
+    "pydantic-settings>=2.8.0",
+    "langgraph>=0.3.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
+    "streamlit>=1.44.0",
+    "openai>=1.71.0",
+    "httpx>=0.28.0",
+    "supabase>=2.15.0",
+    "mem0ai>=0.1.102",
+    "spacy>=3.8.0",
+    "vecs>=0.4.5",
+    "RestrictedPython>=8.0",
+    "python-dotenv>=1.1.0",
+    "pyjwt>=2.8.0",
+    "psycopg2-binary>=2.9.0",
+]
+rag = [
+    "openai>=1.71.0",
+    "supabase>=2.15.0",
+    "pypdf>=5.4.0",
+    "python-dotenv>=1.1.0",
+    "watchdog>=6.0.0",
+]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-mock>=3.14.0",
+]
+all = [
+    "rav>=0.4.3",
+    "pydantic-ai>=0.0.53",
+    "pydantic-settings>=2.8.0",
+    "langgraph>=0.3.0",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
+    "streamlit>=1.44.0",
+    "openai>=1.71.0",
+    "httpx>=0.28.0",
+    "supabase>=2.15.0",
+    "mem0ai>=0.1.102",
+    "spacy>=3.8.0",
+    "vecs>=0.4.5",
+    "RestrictedPython>=8.0",
+    "python-dotenv>=1.1.0",
+    "pyjwt>=2.8.0",
+    "psycopg2-binary>=2.9.0",
+    "pypdf>=5.4.0",
+    "watchdog>=6.0.0",
+    "pytest>=8.3.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-mock>=3.14.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["apps/agent-backend"]
+testpaths = ["tests", "apps/agent-backend/tests", "apps/agent-backend/graphs/tests"]
+asyncio_mode = "strict"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=7.1.0",
+]

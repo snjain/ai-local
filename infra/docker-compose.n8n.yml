@@ -1,0 +1,19 @@
+services:
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY}
+      - N8N_USER_MANAGEMENT_JWT_SECRET=${N8N_USER_MANAGEMENT_JWT_SECRET}
+    volumes:
+      - n8n_storage:/home/node/.n8n
+      - ./n8n/backup:/backup
+      - ../shared:/data/shared
+    entrypoint: /bin/sh
+    command: -c "n8n import:workflow --separate --input=/backup/workflows 2>/dev/null || true; n8n start"
+
+volumes:
+  n8n_storage:

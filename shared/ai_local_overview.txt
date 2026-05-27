@@ -1,0 +1,23 @@
+AI Local Platform Overview
+==========================
+
+The AI Local platform is a self-hosted AI agent solution that runs entirely on your local machine.
+It integrates multiple technologies including:
+
+- Pydantic AI for agent orchestration
+- LangGraph for workflow management
+- Supabase (local Docker) for data persistence
+- Mem0 for memory management
+- n8n for workflow automation
+- Qdrant for vector storage
+- SearXNG for private web search
+
+Key Features:
+1. Multi-agent routing with guardrails
+2. RAG pipeline for document indexing
+3. Real-time streaming responses
+4. Persistent conversation memory
+5. Local document storage and retrieval
+6. No cloud dependencies required
+
+The platform was built by Shailen Jain as part of the AI Agent Mastery course.
