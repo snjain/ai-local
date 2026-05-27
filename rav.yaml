@@ -15,16 +15,16 @@ scripts:
   # n8n (Docker)
   # ============================================================
   n8n:
-    - docker compose -f infra/docker-compose.n8n.yml up -d
+    - docker compose --env-file .env -f infra/docker-compose.n8n.yml up -d
 
   n8n-stop:
-    - docker compose -f infra/docker-compose.n8n.yml down --volumes
+    - docker compose --env-file .env -f infra/docker-compose.n8n.yml down --volumes
 
   n8n-logs:
-    - docker compose -f infra/docker-compose.n8n.yml logs -f n8n
+    - docker compose --env-file .env -f infra/docker-compose.n8n.yml logs -f n8n
 
   n8n-recreate:
-    - docker compose -f infra/docker-compose.n8n.yml up -d --force-recreate n8n
+    - docker compose --env-file .env -f infra/docker-compose.n8n.yml up -d --force-recreate n8n
 
   # ============================================================
   # Agent Backend (native Python)
@@ -89,22 +89,22 @@ scripts:
   # Full Stack (Docker)
   # ============================================================
   up:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d --build
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d --build
 
   down:
-    - docker compose -p ai-local -f infra/docker-compose.yml --profile none down --volumes --remove-orphans
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml --profile none down --volumes --remove-orphans
 
   logs:
-    - docker compose -p ai-local -f infra/docker-compose.yml logs -f
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml logs -f
 
   ps:
     - docker ps --format "table {{.Names}}\t{{.Status}}\t{{.Ports}}"
 
   ps-ai-local:
-    - docker compose -p ai-local -f infra/docker-compose.yml ps
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml ps
 
   ps-n8n:
-    - docker compose -f infra/docker-compose.n8n.yml ps
+    - docker compose --env-file .env -f infra/docker-compose.n8n.yml ps
 
   # ============================================================
   # Testing & Validation
@@ -129,22 +129,22 @@ scripts:
   # Progressive Rollout (ai-local specific)
   # ============================================================
   up-n8n:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d n8n
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d n8n
 
   up-qdrant:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d qdrant
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d qdrant
 
   up-webui:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d open-webui flowise
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d open-webui flowise
 
   up-neo4j:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d neo4j searxng
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d neo4j searxng
 
   up-langfuse:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d langfuse-worker langfuse-web
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d langfuse-worker langfuse-web
 
   up-caddy:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d caddy
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d caddy
 
   images:
     - docker images --format "table {{.Repository}}\t{{.Tag}}\t{{.Size}}"
@@ -153,10 +153,10 @@ scripts:
   # Reproducibility
   # ============================================================
   recreate-n8n:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d --force-recreate n8n
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d --force-recreate n8n
 
   recreate-qdrant:
-    - docker compose -p ai-local -f infra/docker-compose.yml up -d --force-recreate qdrant
+    - docker compose --env-file .env -p ai-local -f infra/docker-compose.yml up -d --force-recreate qdrant
 
   coverage:
     - cd /Users/snjain/github/ai-local && uv run pytest --cov=apps/agent-backend --cov-report=html --cov-report=term -v
