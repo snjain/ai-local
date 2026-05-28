@@ -127,7 +127,7 @@ async def router_node(state: RouterState, writer) -> dict:
         return {"routing_decision": decision, "router_confidence": "high"}
     except Exception as e:
         print(f"Router error: {e}")
-        return {"routing_decision": "web_search", "router_confidence": "fallback"}
+        return {"routing_decision": "fallback", "router_confidence": "fallback"}
 
 
 async def web_search_node(state: RouterState, writer) -> dict:
