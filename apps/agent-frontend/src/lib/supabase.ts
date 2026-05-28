@@ -8,13 +8,13 @@ const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Check if environment variables are defined
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('Supabase URL or Anon Key is missing. Please check your .env file.');
+  throw new Error(
+    'Missing required environment variables: VITE_SUPABASE_URL and/or VITE_SUPABASE_ANON_KEY. ' +
+    'Please ensure your root .env file includes these variables (see .env.example for reference).'
+  );
 }
 
 // Initialize Supabase client
-export const supabase = createClient<Database>(
-  supabaseUrl || '',
-  supabaseAnonKey || ''
-);
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
 export type SupabaseClient = typeof supabase;

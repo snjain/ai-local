@@ -19,6 +19,7 @@ backend = [
     "httpx>=0.28.0",
     "supabase>=2.15.0",
     "mem0ai>=0.1.102",
+    "ollama>=0.6.0",
     "spacy>=3.8.0",
     "vecs>=0.4.5",
     "RestrictedPython>=8.0",

@@ -6,6 +6,13 @@ import { Message, FileAttachment } from '@/types/database.types';
 const ENABLE_STREAMING = import.meta.env.VITE_ENABLE_STREAMING === 'true';
 const AGENT_ENDPOINT = import.meta.env.VITE_AGENT_ENDPOINT;
 
+if (!AGENT_ENDPOINT) {
+  throw new Error(
+    'Missing required environment variable: VITE_AGENT_ENDPOINT. ' +
+    'Please ensure your root .env file includes this variable (see .env.example for reference).'
+  );
+}
+
 // Architecture endpoints mapping
 const ARCHITECTURE_ENDPOINTS: Record<string, string> = {
   'default': AGENT_ENDPOINT,
