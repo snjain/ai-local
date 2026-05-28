@@ -7,6 +7,7 @@ export default defineConfig({
     host: true,
     port: 5173,
   },
+  envDir: "../../",
   plugins: [react()],
   resolve: {
     alias: {
