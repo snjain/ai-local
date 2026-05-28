@@ -542,7 +542,7 @@ services:
     image: supabase/postgres:15.8.1.085
     restart: unless-stopped
     ports:
-      - "5434:5432"
+      - "5434:${POSTGRES_PORT:-5435}"
     volumes:
       - ./supabase/volumes/db/realtime.sql:/docker-entrypoint-initdb.d/migrations/99-realtime.sql:Z
       # Must be superuser to create event trigger
@@ -782,7 +782,7 @@ services:
       - EMBEDDING_MODEL_CHOICE=nomic-embed-text
       - SUPABASE_URL=http://kong:8000
       - SUPABASE_SERVICE_KEY=${SERVICE_ROLE_KEY}
-      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@db:5432/postgres
+      - DATABASE_URL=postgresql://postgres:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/postgres
       - BRAVE_API_KEY=${BRAVE_API_KEY:-}
       - SEARXNG_BASE_URL=http://searxng:8080
       - JWT_SECRET=${JWT_SECRET}
