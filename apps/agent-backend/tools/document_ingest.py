@@ -6,6 +6,7 @@ generates embeddings, and stores in Supabase pgvector.
 import io
 import os
 import hashlib
+import uuid
 from typing import List
 
 from openai import AsyncOpenAI
@@ -68,7 +69,7 @@ async def ingest_document(
         return {"status": "error", "message": "No text extracted from file"}
 
     # Generate document ID
-    doc_id = hashlib.sha256(f"{user_id}:{filename}:{len(file_bytes)}".encode()).hexdigest()[:16]
+    doc_id = str(uuid.uuid4())
 
     # Chunk text
     chunks = _split_text(text)
