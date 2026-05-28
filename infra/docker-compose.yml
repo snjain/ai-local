@@ -560,7 +560,7 @@ services:
       # Use named volume to persist pgsodium decryption key between restarts
       - db-config:/etc/postgresql-custom
     ports:
-      - "5435:5435"
+      - "${POSTGRES_PORT}:${POSTGRES_PORT}"
     healthcheck:
       test:
         [
