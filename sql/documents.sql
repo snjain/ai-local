@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS documents CASCADE;
 CREATE TABLE documents (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
     content TEXT NOT NULL,
-    embedding VECTOR(1536),  -- OpenAI text-embedding-3-small dimensions
+    embedding VECTOR(768),   -- Default: nomic-embed-text via Ollama; change to 1536 for OpenAI text-embedding-3-small
     metadata JSONB DEFAULT '{}'::jsonb,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );
@@ -21,7 +21,7 @@ CREATE INDEX ON documents USING ivfflat (embedding vector_cosine_ops);
 
 -- Create function for matching documents
 CREATE OR REPLACE FUNCTION match_documents(
-    query_embedding VECTOR(1536),
+    query_embedding VECTOR(768),
     match_count INT DEFAULT 4
 )
 RETURNS TABLE(
